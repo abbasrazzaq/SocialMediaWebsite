@@ -78,15 +78,12 @@ function Profile() {
                     <span style={profileDivSpan}>{userProfile.studiedAt}</span>
                 </label>
             </div>
-            </div>;
+        </div>;
 
     return (
-
         <div>
             {contents}
-        </div>
-        
-            
+        </div>   
     );
 }
 
