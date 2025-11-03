@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SocialMediaWebsite.Server.Models;
+using SocialMediaWebsite.Server.Services;
 
 namespace SocialMediaWebsite.Server.Controllers
 {
@@ -6,15 +8,15 @@ namespace SocialMediaWebsite.Server.Controllers
     [Route("api/[controller]")]
     public class FriendsController : Controller
     {
+        private readonly FriendsService _friendService;
+
+        public FriendsController(FriendsService friendsService) => _friendService = friendsService;
+
         [HttpGet]
         public async Task<ActionResult> GetFriends()
         {
-            // Placeholder implementation
-            var friendsList = new[]
-            {
-                new { Username = "bigjim", Fullname = "Jim Bean Bob" },
-                new { Username = "junespring", Fullname = "June Taylor" }
-            };
+            var friendsList = _friendService.GetFriendsList(1);
+
             return Ok(friendsList);
         }
 

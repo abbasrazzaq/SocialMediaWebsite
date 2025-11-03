@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SocialMediaWebsite.Server;
+using SocialMediaWebsite.Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<SocialMediaDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<UserProfileService>();
+builder.Services.AddScoped<FriendsService>();
 
 
 var app = builder.Build();

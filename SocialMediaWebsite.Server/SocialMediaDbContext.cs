@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SocialMediaWebsite.Server.Models;
 
 namespace SocialMediaWebsite.Server
 {
@@ -8,6 +9,8 @@ namespace SocialMediaWebsite.Server
             : base(options)
         { }
 
-        public DbSet<Controllers.UserProfileInfo> UserProfile { get; set; }
+        public DbSet<UserProfileInfo> UserProfile { get; set; }
+        
+        public DbSet<Friend> FriendsTable { get; set; }
     }
 }
