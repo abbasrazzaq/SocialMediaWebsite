@@ -32,7 +32,7 @@ function Profile() {
 
         loadUserProfile();
 
-    }, [userProfile]);
+    }, []);
 
     const contents = userProfile === null
         ? <p>Loading...</p>
