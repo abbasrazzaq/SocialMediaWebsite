@@ -29,16 +29,16 @@ function FriendsList() {
     }, []);
 
     return (
-        <div>
+        <ul>
             {friendsList.map((item) => (
-                <li>
+                <li key={item.friendId}>
                     <div>
                         {item.username}
                     </div>
                     <span style={fullNameSpan}>{item.fullname}</span>
                 </li>
             ))}
-        </div>
+        </ul>
     );
 }
 
