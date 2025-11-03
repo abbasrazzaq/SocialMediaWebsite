@@ -16,11 +16,12 @@ function Profile() {
 
     useEffect(() => {
         async function loadUserProfile() {
-            const response = await fetch('api/userprofile/getprofileinfo',
-                {
+            const myUserId = 1;
+            const response = await fetch(`api/userprofile/getprofileinfo?userId=${myUserId}`, {
                     method: "GET",
-                    headers: { "Content-Type": "application/json" },
-                    body: null
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
                 });
 
             if (response.ok) {

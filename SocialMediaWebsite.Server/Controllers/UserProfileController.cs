@@ -24,9 +24,9 @@ namespace SocialMediaWebsite.Server.Controllers
         public UserProfileController(UserProfileService userProfileService) => _userProfileService = userProfileService;
 
         [HttpGet("getprofileinfo")]
-        public async Task<IActionResult> GetProfileInfo()
+        public async Task<IActionResult> GetProfileInfo([FromQuery] int userId)
         {
-            var userProfile = await _userProfileService.GetUserProfileInfo(1);
+            var userProfile = await _userProfileService.GetUserProfileInfo(userId);
             if(userProfile != null)
             {
                 return Ok(userProfile);
