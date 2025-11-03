@@ -12,11 +12,11 @@ interface UserProfile {
 }
 
 function Profile() {
-    const [userProfile, setUserProfile] = useState<UserProfile>(null);
+    const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
 
     useEffect(() => {
         async function loadUserProfile() {
-            const myUserId = 1;
+            const myUserId: number = 1;
             const response = await fetch(`api/userprofile/getprofileinfo?userId=${myUserId}`, {
                     method: "GET",
                     headers: {
