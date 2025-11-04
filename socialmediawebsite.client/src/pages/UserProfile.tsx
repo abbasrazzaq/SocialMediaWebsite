@@ -16,6 +16,7 @@ function Profile() {
 
     useEffect(() => {
         async function loadUserProfile() {
+            // TODO: Get from jwt token
             const myUserId: number = 1;
             const response = await fetch(`api/userprofile/getprofileinfo?userId=${myUserId}`, {
                     method: "GET",

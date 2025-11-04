@@ -21,5 +21,17 @@ namespace SocialMediaWebsite.Server.Services
 
             return friends.ToList();
         }
+
+        public async Task<bool> RemoveFriend(int userId, int friendId)
+        {
+            var friend = _context.FriendsTable.FirstOrDefault(f => f.UserId == userId && f.FriendId == friendId);
+            if (friend == null)
+            {
+                // TODO: LOG error: Friend entry not found
+                return false;
+            }
+            _context.FriendsTable.Remove(friend);
+            return  _context.SaveChanges() > 0;
+        }
     }
 }
