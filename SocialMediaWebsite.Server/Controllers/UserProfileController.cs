@@ -23,19 +23,6 @@ namespace SocialMediaWebsite.Server.Controllers
             {
                 return NotFound();
             }
-
-                //return Ok(
-                //    new UserProfileInfo
-                //    {
-                //        Username = "abbashols",
-                //        Fullname = "Abbas Razzaq",
-                //        Age = 37,
-                //        Location = "Ho Chi Minh City",
-                //        Workplace = "Senior Software Developer at Surpass Assessment",
-                //        Hometown = "Bradford",
-                //        StudiedAt = "University of Derby"
-                //    }
-                //);
         }
     }
 }

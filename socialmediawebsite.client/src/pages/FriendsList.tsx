@@ -2,15 +2,42 @@ import { useEffect, useState } from 'react';
 import type { CSSProperties } from 'react';
 
 interface Friend {
+    id: number;
     username: string;
     fullname: string;
-    // TODO: profilePicture: string
 }
 
 function FriendsList() {
     const [friendsList, setFriendsList] = useState<Friend[]>([]);
+    const [peopleMayKnowList, setPeopleMayKnowList] = useState<Friend[]>([]);
 
-    async function removeFriend(userId: number, friendId: number) {
+    async function addFriend(userId: number, newFriend: Friend) {
+        const response = await fetch('api/Friends/addfriend', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                userId: userId,
+                friendId: newFriend.id
+            })
+        });
+
+        if (response.ok) {
+            // Add to friend list
+            setFriendsList(prev => [...prev, newFriend]);
+
+            alert("Added successfully");
+        }
+        else {
+            alert("Failed to add.");
+        }
+
+        // Remove from people you may know list
+        setPeopleMayKnowList(prev => prev.filter(p => p.id !== newFriend.id));
+    }
+
+    async function removeFriend(userId: number, friend: Friend) {
         const response = await fetch('api/Friends/removefriend', {
             method: "POST",
             headers: {
@@ -18,7 +45,7 @@ function FriendsList() {
             },
             body: JSON.stringify({
                 userId: userId,
-                friendId: friendId
+                friendId: friend.id
             })
         });
 
@@ -29,7 +56,9 @@ function FriendsList() {
             alert('remove failed');
         }
 
-        setFriendsList(prev => prev.filter(friend => friend.friendId !== friendId))
+        //setPeopleMayKnowList(prev, ...[])
+        setPeopleMayKnowList(prev => [...prev, friend]);
+        setFriendsList(prev => prev.filter(friend => friend.id !== friend.id))
     }
 
     useEffect(() => {
@@ -47,21 +76,53 @@ function FriendsList() {
             }
         }
 
+        async function loadPeopleMayKnowList(userId: number) {
+            const response = await fetch(`api/Friends/getpeoplemayknow?userId=${userId}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                setPeopleMayKnowList(data);
+            }
+        }
+
         loadFriendsList();
+        loadPeopleMayKnowList(1);
     }, []);
 
     return (
-        <ul>
-            {friendsList.map((item) => (
-                <li key={item.friendId}>
-                    <div>
-                        {item.username}
-                    </div>
-                    <span style={fullNameSpan}>{item.fullname}</span>
-                    <button onClick={()=> removeFriend(1, item.friendId)}>Remove</button>
-                </li>
-            ))}
-        </ul>
+        <>
+            <h1>Friends List</h1>
+            <ul>
+                {friendsList.map((item) => (
+                    <li key={item.id}>
+                        <div>
+                            {item.username}
+                        </div>
+                        <span style={fullNameSpan}>{item.fullname}</span>
+                        <button onClick={() => removeFriend(1, item)}>Remove</button>
+                    </li>
+                ))}
+            </ul>
+
+            <h1>People You May Know</h1>
+            <ul>
+                {peopleMayKnowList.map((item) => (
+                    <li key={item.id}>
+                        <div>
+                            {item.username}
+                        </div>
+                        <span style={fullNameSpan}>{item.fullname}</span>
+                        <button onClick={() => addFriend(1, item)}>Add</button>
+                    </li>
+                )) }
+            </ul>
+        </>
+        
     );
 }
 

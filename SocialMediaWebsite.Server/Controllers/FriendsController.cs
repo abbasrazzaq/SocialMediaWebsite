@@ -4,6 +4,12 @@ using SocialMediaWebsite.Server.Services;
 
 namespace SocialMediaWebsite.Server.Controllers
 {
+    public class AddFriend
+    {
+        public required int UserId { get; set; }
+        public required int FriendId { get; set; }
+    }
+
     [ApiController]
     [Route("api/[controller]")]
     public class FriendsController : Controller
@@ -16,8 +22,15 @@ namespace SocialMediaWebsite.Server.Controllers
         public async Task<ActionResult> GetFriends()
         {
             var friendsList = _friendService.GetFriendsList(1);
-
             return Ok(friendsList);
+        }
+
+        [HttpPost("addfriend")]
+        public async Task<ActionResult> AddFriend([FromBody] AddFriend addFriend)
+        {
+            var result = await _friendService.AddFriend(addFriend.UserId, addFriend.FriendId);
+            // TODO: Check the result (or on the UI)
+            return Ok(result);
         }
 
         [HttpPost("removefriend")]
@@ -33,6 +46,13 @@ namespace SocialMediaWebsite.Server.Controllers
             {
                 return NotFound();
             }
+        }
+
+        [HttpGet("getpeoplemayknow")]
+        public async Task<ActionResult> GetPeopleYouMayKnow([FromQuery] int userId)
+        {
+            var result = await _friendService.GetPeopleMayKnow(userId);
+            return Ok(result);
         }
 
     }
