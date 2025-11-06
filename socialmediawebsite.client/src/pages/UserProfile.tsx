@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import type { CSSProperties } from 'react';
 
 interface UserProfile {
+    id: number;
     username: string;
     fullname: string;
     age: number;
@@ -39,6 +40,7 @@ function Profile() {
     const contents = userProfile === null
         ? <p>Loading...</p>
         : <div>
+            <img style={ { width : '80px' } } src={`/profilePics/${userProfile.id}.jpg` } />
             <div style={profileDiv}>
                 <h1>User Profile</h1>
                 <label style={profileDivLabel}>

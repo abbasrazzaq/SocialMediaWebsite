@@ -51,7 +51,8 @@ export default defineConfig({
                 target,
                 secure: false
             },
-            '^/api': { target, secure: false, changeOrigin: true }
+            '^/api': { target, secure: false, changeOrigin: true },
+            '^/profilePics': { target, secure: false, changeOrigin: true }
         },
         port: parseInt(env.DEV_SERVER_PORT || '64789'),
         https: {

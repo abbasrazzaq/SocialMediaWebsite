@@ -56,7 +56,6 @@ function FriendsList() {
             alert('remove failed');
         }
 
-        //setPeopleMayKnowList(prev, ...[])
         setPeopleMayKnowList(prev => [...prev, friend]);
         setFriendsList(prev => prev.filter(friend => friend.id !== friend.id))
     }
