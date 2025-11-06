@@ -99,12 +99,12 @@ function FriendsList() {
         <>
             <h1>Friends List</h1>
             <ul>
-                {friendsList.map((item) => (
-                    <li key={item.id}>
+                {friendsList.map((user) => (
+                    <li key={user.id}>
                         <img
                             style={{ width: '40px' }}
-                            alt={item.username}
-                            src={`/profilePics/${item.id}.jpg`}
+                            alt={user.username}
+                            src={`/profilePics/${user.id}.jpg`}
                             onError={e => {
                                 const target = e.currentTarget as HTMLImageElement;
                                 target.onerror = null; // Prevent infinite loop if placeholder is missing
@@ -112,22 +112,22 @@ function FriendsList() {
                             }}
                         />
                         <div>
-                            {item.username}
+                            <a href={`/userprofile?userId=${user.id}`}>{user.username}</a>
                         </div>
-                        <span style={fullNameSpan}>{item.fullname}</span>
-                        <button onClick={() => removeFriend(1, item)}>Remove</button>
+                        <span style={fullNameSpan}>{user.fullname}</span>
+                        <button onClick={() => removeFriend(1, user)}>Remove</button>
                     </li>
                 ))}
             </ul>
 
             <h1>People You May Know</h1>
             <ul>
-                {peopleMayKnowList.map((item) => (
-                    <li key={item.id}>
+                {peopleMayKnowList.map((user) => (
+                    <li key={user.id}>
                         <img
                             style={{ width: '40px' }}
-                            alt={item.username}
-                            src={`/profilePics/${item.id}.jpg`}
+                            alt={user.username}
+                            src={`/profilePics/${user.id}.jpg`}
                             onError={e => {
                                 const target = e.currentTarget as HTMLImageElement;
                                 target.onerror = null; // Prevent infinite loop if placeholder is missing
@@ -135,10 +135,10 @@ function FriendsList() {
                             }}
                         />
                         <div>
-                            {item.username}
+                            <a href={`/userprofile?userId=${user.id}`}>{user.username}</a>
                         </div>
-                        <span style={fullNameSpan}>{item.fullname}</span>
-                        <button onClick={() => addFriend(1, item)}>Add</button>
+                        <span style={fullNameSpan}>{user.fullname}</span>
+                        <button onClick={() => addFriend(1, user)}>Add</button>
                     </li>
                 )) }
             </ul>

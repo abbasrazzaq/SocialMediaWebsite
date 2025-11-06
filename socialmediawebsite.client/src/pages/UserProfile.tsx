@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { CSSProperties } from 'react';
+import { useLocation } from 'react-router-dom';
 
 interface UserProfile {
     id: number;
@@ -15,10 +16,14 @@ interface UserProfile {
 function Profile() {
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
 
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const myUserId = Number(searchParams.get('userId')) || 1;
+
     useEffect(() => {
         async function loadUserProfile() {
             // TODO: Get from jwt token
-            const myUserId: number = 1;
+            //const myUserId: number = 1;
             const response = await fetch(`api/userprofile/getprofileinfo?userId=${myUserId}`, {
                     method: "GET",
                     headers: {
