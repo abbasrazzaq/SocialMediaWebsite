@@ -37,10 +37,12 @@ function Profile() {
 
     }, []);
 
+    const noProfilePicImg: string = '/profilePics/none.jpg';
+
     const contents = userProfile === null
         ? <p>Loading...</p>
         : <div>
-            <img style={ { width : '80px' } } src={`/profilePics/${userProfile.id}.jpg` } />
+            <img style={{ width: '80px' }} alt={noProfilePicImg}  src={`/profilePics/${userProfile.id}.jpg` } />
             <div style={profileDiv}>
                 <h1>User Profile</h1>
                 <label style={profileDivLabel}>

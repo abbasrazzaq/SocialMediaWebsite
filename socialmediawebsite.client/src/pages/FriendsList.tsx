@@ -57,7 +57,7 @@ function FriendsList() {
         }
 
         setPeopleMayKnowList(prev => [...prev, friend]);
-        setFriendsList(prev => prev.filter(friend => friend.id !== friend.id))
+        setFriendsList(prev => prev.filter(f => f.id !== friend.id))
     }
 
     useEffect(() => {
@@ -93,12 +93,24 @@ function FriendsList() {
         loadPeopleMayKnowList(1);
     }, []);
 
+    const noProfilePicImg: string = '/profilePics/none.jpg';
+
     return (
         <>
             <h1>Friends List</h1>
             <ul>
                 {friendsList.map((item) => (
                     <li key={item.id}>
+                        <img
+                            style={{ width: '40px' }}
+                            alt={item.username}
+                            src={`/profilePics/${item.id}.jpg`}
+                            onError={e => {
+                                const target = e.currentTarget as HTMLImageElement;
+                                target.onerror = null; // Prevent infinite loop if placeholder is missing
+                                target.src = '/profilePics/none.jpg';
+                            }}
+                        />
                         <div>
                             {item.username}
                         </div>
@@ -112,6 +124,16 @@ function FriendsList() {
             <ul>
                 {peopleMayKnowList.map((item) => (
                     <li key={item.id}>
+                        <img
+                            style={{ width: '40px' }}
+                            alt={item.username}
+                            src={`/profilePics/${item.id}.jpg`}
+                            onError={e => {
+                                const target = e.currentTarget as HTMLImageElement;
+                                target.onerror = null; // Prevent infinite loop if placeholder is missing
+                                target.src = '/profilePics/none.jpg';
+                            }}
+                        />
                         <div>
                             {item.username}
                         </div>
