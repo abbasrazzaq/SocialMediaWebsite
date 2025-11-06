@@ -37,15 +37,7 @@ namespace SocialMediaWebsite.Server.Controllers
         public async Task<ActionResult> RemoveFriend([FromBody] Friend friend)
         {
             var result = await _friendService.RemoveFriend(friend.UserId, friend.FriendId);
-
-            if(result)
-            {
-                return Ok();
-            }
-            else
-            {
-                return NotFound();
-            }
+            return Ok(result);
         }
 
         [HttpGet("getpeoplemayknow")]

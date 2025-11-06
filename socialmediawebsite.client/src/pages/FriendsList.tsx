@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { CSSProperties } from 'react';
+import { apiFetch } from '../services/api';
 
 interface Friend {
     id: number;
@@ -12,25 +13,21 @@ function FriendsList() {
     const [peopleMayKnowList, setPeopleMayKnowList] = useState<Friend[]>([]);
 
     async function addFriend(userId: number, newFriend: Friend) {
-        const response = await fetch('api/Friends/addfriend', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                userId: userId,
-                friendId: newFriend.id
-            })
-        });
 
-        if (response.ok) {
-            // Add to friend list
+        try {
+            await apiFetch('api/Friends/addfriend', {
+                method: "POST",
+                body: {
+                    userId: userId,
+                    friendId: newFriend.id
+                }
+            });
+
             setFriendsList(prev => [...prev, newFriend]);
-
             alert("Added successfully");
-        }
-        else {
-            alert("Failed to add.");
+        } catch (error) {
+            console.error("Failed to add friend: ", error)
+            alert("Failed to add friend.");
         }
 
         // Remove from people you may know list
@@ -38,22 +35,20 @@ function FriendsList() {
     }
 
     async function removeFriend(userId: number, friend: Friend) {
-        const response = await fetch('api/Friends/removefriend', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                userId: userId,
-                friendId: friend.id
-            })
-        });
 
-        if (response.ok) {
+        try {
+            await apiFetch('api/Friends/removefriend', {
+                method: "POST",
+                body: {
+                    userId: userId,
+                    friendId: friend.id
+                }
+            });
+
             alert('remove success');
-        }
-        else {
-            alert('remove failed');
+        } catch (error) {
+            console.error("Failed to remove friend: " + error);
+            alert("Failed to remove friend.");
         }
 
         setPeopleMayKnowList(prev => [...prev, friend]);
@@ -62,30 +57,23 @@ function FriendsList() {
 
     useEffect(() => {
         async function loadFriendsList() {
-            const response = await fetch('api/Friends/getfriends', {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                setFriendsList(data);
+            try {
+                const myFriendsList = await apiFetch<Friend[]>('api/Friends/getfriends');
+                setFriendsList(myFriendsList);
+            }
+            catch (error) {
+                console.error("Failed to load friends list: " + error);
+                alert("Failed to load friends list");
             }
         }
 
         async function loadPeopleMayKnowList(userId: number) {
-            const response = await fetch(`api/Friends/getpeoplemayknow?userId=${userId}`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                setPeopleMayKnowList(data);
+            try {
+                const myPeopleMayKnowList = await apiFetch<Friend[]>(`api/Friends/getpeoplemayknow?userId=${userId}`);
+                setPeopleMayKnowList(myPeopleMayKnowList);
+            } catch (error) {
+                console.error("Failed to load people you may know list: " + error);
+                alert("Failed to load prople you may know list");
             }
         }
 
@@ -93,7 +81,6 @@ function FriendsList() {
         loadPeopleMayKnowList(1);
     }, []);
 
-    const noProfilePicImg: string = '/profilePics/none.jpg';
 
     return (
         <>

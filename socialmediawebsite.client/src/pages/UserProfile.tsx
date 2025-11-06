@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import type { CSSProperties } from 'react';
 import { useLocation } from 'react-router-dom';
+import { apiFetch } from '../services/api';
 
 interface UserProfile {
     id: number;
@@ -22,20 +23,8 @@ function Profile() {
 
     useEffect(() => {
         async function loadUserProfile() {
-            // TODO: Get from jwt token
-            //const myUserId: number = 1;
-            const response = await fetch(`api/userprofile/getprofileinfo?userId=${myUserId}`, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                });
-
-            if (response.ok) {
-                const data = await response.json();
-                setUserProfile(data);
-
-            }
+            const response = await apiFetch<UserProfile>('api/userprofile/getprofileinfo?userId=' + myUserId);
+            setUserProfile(response);
         }
 
         loadUserProfile();
@@ -47,7 +36,16 @@ function Profile() {
     const contents = userProfile === null
         ? <p>Loading...</p>
         : <div>
-            <img style={{ width: '80px' }} alt={noProfilePicImg}  src={`/profilePics/${userProfile.id}.jpg` } />
+            <img
+                style={{ width: '80px' }}
+                alt={noProfilePicImg}
+                src={`/profilePics/${userProfile.id}.jpg`}
+                onError={e => {
+                    const target = e.currentTarget as HTMLImageElement;
+                    target.onerror = null; // Prevent infinite loop if placeholder is missing
+                    target.src = '/profilePics/none.jpg'
+                }}
+            />
             <div style={profileDiv}>
                 <h1>User Profile</h1>
                 <label style={profileDivLabel}>
