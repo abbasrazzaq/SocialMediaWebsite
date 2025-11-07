@@ -17,7 +17,8 @@ namespace SocialMediaWebsite.Server.Controllers
             var userProfile = await _userProfileService.GetUserProfileInfo(userId);
             if(userProfile != null)
             {
-                return Ok(userProfile);
+                var userProfileDto = _userProfileService.GetUserProfileDto(userProfile);
+                return Ok(userProfileDto);
             }
             else
             {

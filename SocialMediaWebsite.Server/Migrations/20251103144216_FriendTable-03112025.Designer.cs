@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using SocialMediaWebsite.Server;
+using SocialMediaWebsite.Server.Data;
 
 #nullable disable
 
 namespace SocialMediaWebsite.Server.Migrations
 {
-    [DbContext(typeof(SocialMediaDbContext))]
+    [DbContext(typeof(AppDbContext))]
     [Migration("20251103144216_FriendTable-03112025")]
     partial class FriendTable03112025
     {

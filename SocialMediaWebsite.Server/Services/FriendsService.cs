@@ -1,33 +1,41 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SocialMediaWebsite.Server.Data;
+using SocialMediaWebsite.Server.DTOs;
 using SocialMediaWebsite.Server.Models;
 
 namespace SocialMediaWebsite.Server.Services
 {
     public class FriendsService
     {
-        private readonly SocialMediaDbContext _context;
+        private readonly AppDbContext _context;
 
-        public FriendsService(SocialMediaDbContext context) => _context = context;
+        public FriendsService(AppDbContext context) => _context = context;
 
-        public List<FriendInfo> GetFriendsList(int userId)
+        public List<FriendDto> GetFriendsList(int userId)
         {
             var friends =       from f in _context.FriendsTable
                                 where f.UserId == userId
                                 join u in _context.UserProfile on f.FriendId equals u.Id
-                                select new FriendInfo {
-                                    Id = u.Id,
+                                select new FriendDto
+                                {
+                                    Id = f.FriendId,
+                                    Fullname = u.Fullname,
                                     Username = u.Username,
-                                    Fullname = u.Fullname
                                 };
 
             return friends.ToList();
         }
 
-        public async Task<List<FriendInfo>> GetPeopleMayKnow(int userId)
+        public async Task<List<FriendDto>> GetPeopleMayKnow(int userId)
         {
             var peopleMayKnow = from f in _context.UserProfile
                                 where f.Id != userId && !_context.FriendsTable.Any(fr => fr.UserId == userId && fr.FriendId == f.Id)
-                                select new FriendInfo { Id = f.Id, Username = f.Username, Fullname = f.Fullname };
+                                select new FriendDto 
+                                { 
+                                    Id = f.Id, 
+                                    Username = f.Username,
+                                    Fullname = f.Fullname 
+                                };
 
             return await peopleMayKnow.ToListAsync();
         }

@@ -1,15 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SocialMediaWebsite.Server.Models;
+using SocialMediaWebsite.Server.DTOs.Requests;
 using SocialMediaWebsite.Server.Services;
 
 namespace SocialMediaWebsite.Server.Controllers
 {
-    public class AddFriend
-    {
-        public required int UserId { get; set; }
-        public required int FriendId { get; set; }
-    }
-
     [ApiController]
     [Route("api/[controller]")]
     public class FriendsController : Controller
@@ -26,17 +20,17 @@ namespace SocialMediaWebsite.Server.Controllers
         }
 
         [HttpPost("addfriend")]
-        public async Task<ActionResult> AddFriend([FromBody] AddFriend addFriend)
+        public async Task<ActionResult> AddFriend([FromBody] AddFriendRequest request)
         {
-            var result = await _friendService.AddFriend(addFriend.UserId, addFriend.FriendId);
+            var result = await _friendService.AddFriend(request.UserId, request.FriendId);
             // TODO: Check the result (or on the UI)
             return Ok(result);
         }
 
         [HttpPost("removefriend")]
-        public async Task<ActionResult> RemoveFriend([FromBody] Friend friend)
+        public async Task<ActionResult> RemoveFriend([FromBody] RemoveFriendRequest request)
         {
-            var result = await _friendService.RemoveFriend(friend.UserId, friend.FriendId);
+            var result = await _friendService.RemoveFriend(request.UserId, request.FriendId);
             return Ok(result);
         }
 
