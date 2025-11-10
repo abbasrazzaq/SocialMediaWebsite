@@ -13,6 +13,8 @@ namespace SocialMediaWebsite.Server.Data
         
         public DbSet<Friend> FriendsTable { get; set; }
 
+        public DbSet<UserPost> UserPosts { get; set; }
+
         protected override void OnModelCreating(ModelBuilder model)
         {
             model.Entity<Friend>()

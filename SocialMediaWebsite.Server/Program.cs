@@ -15,6 +15,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<UserProfileService>();
 builder.Services.AddScoped<FriendsService>();
+builder.Services.AddScoped<UserPostsService>();
 
 
 var app = builder.Build();
