@@ -12,5 +12,6 @@
         public string StudiedAt { get; set; }
 
         public ICollection<Friend> Friends { get; set; } = new List<Friend>();
+        public ICollection<UserPost> Posts { get; set; } = new List<UserPost>();
     }
 }

@@ -29,6 +29,26 @@ namespace SocialMediaWebsite.Server.Data
                 .WithMany()
                 .HasForeignKey(f => f.FriendId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            model.Entity<UserPost>()
+                .HasOne(p => p.UserProfile)
+                .WithMany(u => u.Posts)
+                .HasForeignKey(p => p.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            model.Entity<UserPost>()
+                .ToTable("UserPost");
+
+            model.Entity<UserPost>()
+                .Property(p => p.Text)
+                .HasMaxLength(500)
+                .IsRequired(false);
+
+            model.Entity<UserPost>()
+                .HasOne(p => p.UserProfile)
+                .WithMany(u => u.Posts)
+                .HasForeignKey(p => p.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

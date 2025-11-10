@@ -1,0 +1,11 @@
+﻿namespace SocialMediaWebsite.Server.Models
+{
+    public class UserPost
+    {
+        public required int Id { get; set; }
+        public required int UserId { get; set; }
+        public string Text { get; set; }
+
+        public UserProfile UserProfile { get; set; }
+    }
+}
