@@ -14,12 +14,27 @@ interface UserProfile {
     studiedAt: string;
 }
 
+interface UserPost {
+    id: number;
+    text: string;
+}
+
 function Profile() {
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+    const [userPosts, setUserPosts] = useState<UserPost[] | null>(null);
 
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const myUserId = Number(searchParams.get('userId')) || 1;
+
+    useEffect(() => {
+        async function loadUserPosts() {
+            const response = await apiFetch<UserPost[]>('api/userposts/getusersposts?userId=' + myUserId);
+            setUserPosts(response);
+        }
+
+        loadUserPosts();
+    }, []);
 
     useEffect(() => {
         async function loadUserProfile() {
@@ -33,7 +48,7 @@ function Profile() {
 
     const noProfilePicImg: string = '/profilePics/none.jpg';
 
-    const contents = userProfile === null
+    const contents = (userProfile === null || userPosts === null)
         ? <p>Loading...</p>
         : <div>
             <img
@@ -87,6 +102,15 @@ function Profile() {
                     <span style={profileDivSpan}>{userProfile.studiedAt}</span>
                 </label>
             </div>
+            <h2>Posts</h2>
+            <ul>
+                {userPosts.map((post) => (
+                    <li key={post.id}>
+                        {post.text}
+                    </li>
+                ))}
+            </ul>
+
         </div>;
 
     return (
