@@ -10,7 +10,7 @@ using SocialMediaWebsite.Server.Data;
 namespace SocialMediaWebsite.Server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class SocialMediaDbContextModelSnapshot : ModelSnapshot
+    partial class AppDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -23,21 +23,20 @@ namespace SocialMediaWebsite.Server.Migrations
 
             modelBuilder.Entity("SocialMediaWebsite.Server.Models.Friend", b =>
                 {
-                    b.Property<int>("FriendId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FriendId"));
-
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.HasKey("FriendId");
+                    b.Property<int>("FriendId")
+                        .HasColumnType("int");
 
-                    b.ToTable("Friends");
+                    b.HasKey("UserId", "FriendId");
+
+                    b.HasIndex("FriendId");
+
+                    b.ToTable("FriendsTable");
                 });
 
-            modelBuilder.Entity("SocialMediaWebsite.Server.Models.UserProfileInfo", b =>
+            modelBuilder.Entity("SocialMediaWebsite.Server.Models.UserProfile", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -75,6 +74,30 @@ namespace SocialMediaWebsite.Server.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("UserProfile");
+                });
+
+            modelBuilder.Entity("SocialMediaWebsite.Server.Models.Friend", b =>
+                {
+                    b.HasOne("SocialMediaWebsite.Server.Models.UserProfile", "FriendProfile")
+                        .WithMany()
+                        .HasForeignKey("FriendId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SocialMediaWebsite.Server.Models.UserProfile", "UserProfile")
+                        .WithMany("Friends")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("FriendProfile");
+
+                    b.Navigation("UserProfile");
+                });
+
+            modelBuilder.Entity("SocialMediaWebsite.Server.Models.UserProfile", b =>
+                {
+                    b.Navigation("Friends");
                 });
 #pragma warning restore 612, 618
         }

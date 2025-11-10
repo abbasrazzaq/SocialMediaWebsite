@@ -1,0 +1,4 @@
+
+INSERT [dbo].[UserProfile] ([Username], [Fullname], [Age], [Location], [Workplace], [Hometown], [StudiedAt]) VALUES (N'abbasr', N'Abbas Razzaq', 37, N'Ho Chi Minh City', N'Surpass Assessment', N'Bradford', N'University of Derby')
+INSERT [dbo].[UserProfile] ([Username], [Fullname], [Age], [Location], [Workplace], [Hometown], [StudiedAt]) VALUES (N'bigjim', N'Jim Bean', 52, N'Glasgow', N'Farm', N'Edinburgh', N'University of Life')
+INSERT [dbo].[UserProfile] ([Username], [Fullname], [Age], [Location], [Workplace], [Hometown], [StudiedAt]) VALUES (N'junespring', N'June Taylor', 21, N'Leeds', N'HMRC', N'Manchester', N'University of Manchester')

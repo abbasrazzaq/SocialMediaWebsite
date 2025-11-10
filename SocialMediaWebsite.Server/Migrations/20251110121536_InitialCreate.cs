@@ -28,11 +28,43 @@ namespace SocialMediaWebsite.Server.Migrations
                 {
                     table.PrimaryKey("PK_UserProfile", x => x.Id);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "FriendsTable",
+                columns: table => new
+                {
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    FriendId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FriendsTable", x => new { x.UserId, x.FriendId });
+                    table.ForeignKey(
+                        name: "FK_FriendsTable_UserProfile_FriendId",
+                        column: x => x.FriendId,
+                        principalTable: "UserProfile",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_FriendsTable_UserProfile_UserId",
+                        column: x => x.UserId,
+                        principalTable: "UserProfile",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FriendsTable_FriendId",
+                table: "FriendsTable",
+                column: "FriendId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "FriendsTable");
+
             migrationBuilder.DropTable(
                 name: "UserProfile");
         }
