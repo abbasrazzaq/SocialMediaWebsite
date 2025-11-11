@@ -11,6 +11,17 @@ namespace SocialMediaWebsite.Server.Services
 
         public UserPostsService(AppDbContext context) => _context = context;
 
+        public bool AddPost(int userId, UserPostDto newPost)
+        {
+            _context.UserPosts.Add(new UserPost
+            { 
+                UserId = userId,
+                Text = newPost.Text,
+                Timestamp = newPost.Timestamp
+            });
+            return _context.SaveChanges() > 0;
+        }
+
         public async Task<List<UserPostDto>> GetUserPosts(int userId)
         {
             var user = await _context.UserProfile

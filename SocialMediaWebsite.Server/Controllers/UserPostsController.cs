@@ -18,5 +18,12 @@ namespace SocialMediaWebsite.Server.Controllers
             var userPosts = await _userPostsService.GetUserPosts(userId);
             return Ok(userPosts);
         }
+
+        [HttpPost("addpost")]
+        public async Task<ActionResult> AddPost([FromQuery] int userId, [FromBody] UserPostDto newPost)
+        {
+            var result = _userPostsService.AddPost(userId, newPost);
+            return Ok(result);
+        }
     }
 }
