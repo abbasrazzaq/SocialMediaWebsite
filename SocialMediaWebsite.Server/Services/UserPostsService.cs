@@ -24,7 +24,8 @@ namespace SocialMediaWebsite.Server.Services
                 .Select(p => new UserPostDto
                 {
                     Id = p.Id,
-                    Text = p.Text
+                    Text = p.Text,
+                    Timestamp = p.Timestamp
                 });
 
             return posts.ToList();

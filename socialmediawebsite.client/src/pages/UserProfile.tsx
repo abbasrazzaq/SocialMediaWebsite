@@ -17,6 +17,7 @@ interface UserProfile {
 interface UserPost {
     id: number;
     text: string;
+    timestamp: Date;
 }
 
 function Profile() {
@@ -106,7 +107,7 @@ function Profile() {
             <ul>
                 {userPosts.map((post) => (
                     <li key={post.id}>
-                        {post.text}
+                        ({post.timestamp}) {post.text}
                     </li>
                 ))}
             </ul>
