@@ -16,7 +16,7 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectio
 builder.Services.AddScoped<UserProfileService>();
 builder.Services.AddScoped<FriendsService>();
 builder.Services.AddScoped<UserPostsService>();
-
+builder.Services.AddScoped<LoginService>();
 
 var app = builder.Build();
 
