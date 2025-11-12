@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SocialMediaWebsite.Server.DTOs.ApiRequests;
 using SocialMediaWebsite.Server.Services;
 using System.ComponentModel.DataAnnotations;
 
@@ -10,6 +11,14 @@ namespace SocialMediaWebsite.Server.Controllers
     {
         private readonly UserProfileService _userProfileService;
         public UserProfileController(UserProfileService userProfileService) => _userProfileService = userProfileService;
+
+
+        [HttpPost("createaccount")]
+        public async Task<IActionResult> CreateAccount([FromBody] CreateAccountRequest request)
+        {
+            var result = await _userProfileService.CreateAccount(_userProfileService.GetUserProfileDto(request));
+            return Ok(result);
+        }
 
         [HttpGet("getprofileinfo")]
         public async Task<IActionResult> GetProfileInfo([FromQuery] int userId)
