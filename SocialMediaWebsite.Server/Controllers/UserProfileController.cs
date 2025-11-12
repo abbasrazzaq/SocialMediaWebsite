@@ -16,7 +16,15 @@ namespace SocialMediaWebsite.Server.Controllers
         [HttpPost("createaccount")]
         public async Task<IActionResult> CreateAccount([FromBody] CreateAccountRequest request)
         {
-            var result = await _userProfileService.CreateAccount(_userProfileService.GetUserProfileDto(request));
+            var result = await _userProfileService.CreateAccount(
+                request.Username,
+                request.Password,
+                request.Fullname,
+                request.Age,
+                request.Location,
+                request.Workplace,
+                request.Hometown,
+                request.StudiedAt);
             return Ok(result);
         }
 

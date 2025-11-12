@@ -3,7 +3,7 @@ import { apiFetch } from '../services/api';
 
 interface CreateAccountData {
     username: string;
-    // password: string;
+    password: string;
     fullname: string;
     age: number;
     location: string;
@@ -20,6 +20,7 @@ function CreateAccount() {
         const formData = new FormData(event.currentTarget);
         const createAccountData: CreateAccountData = {
             username: formData.get('username') as string,
+            password: formData.get('password') as string,
             fullname: formData.get('fullname') as string,
             age: Number(formData.get('age')) || 18,
             location: formData.get('location') as string,
@@ -46,45 +47,45 @@ function CreateAccount() {
 
             <label>
                 <span>Username:</span>
-                <input type="text" name="username" />
+                <input type="text" name="username" required />
             </label>
 
-            {/*<label>*/}
-            {/*    <span>Password:</span>*/}
-            {/*    <input type="password" name="password" />*/}
-            {/*</label>*/}
+            <label>
+                <span>Password:</span>
+                <input type="password" name="password" required />
+            </label>
 
             <label>
                 <span>Fullname:</span>
-                <input type="text" name="fullname"
+                <input type="text" name="fullname" required />
             </label>
 
             <label>
                 <span>Age:</span>
-                <input type="number" name="age" />
+                <input type="number" name="age" required />
             </label>
 
             <label>
                 <span>Location:</span>
                 {/*TODO: Have a drop down selection*/}
-                <input type="text" name="location" />
+                <input type="text" name="location" required />
             </label>
 
             <label>
                 <span>Workplace:</span>
-                <input type="text" name="workplace" />
+                <input type="text" name="workplace" required />
             </label>
 
             <label>
                 <span>Hometown:</span>
                 {/*TODO: Have a drop down selection*/}
-                <input type="text" name="hometown" />
+                <input type="text" name="hometown" required />
             </label>
 
             <label>
                 <span>Studied At:</span>
                 { /*TODO: Have a drop down selection*/ }
-                <input type="text" name="studiedAt" />
+                <input type="text" name="studiedAt" required />
             </label>
 
             <button type="submit" id="createAccountBtn">Create Account</button>

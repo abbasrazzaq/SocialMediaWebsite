@@ -13,17 +13,27 @@ namespace SocialMediaWebsite.Server.Services
 
         public UserProfileService(AppDbContext context) => _context = context;
 
-        public async Task<bool> CreateAccount(UserProfileDto userProfile)
+        public async Task<bool> CreateAccount(
+            string username, 
+            string password,
+            string fullname, 
+            int age, 
+            string location, 
+            string workplace,
+            string hometown, 
+            string studiedAt
+            )
         {
             _context.UserProfile.Add(new UserProfile
             {
-                Username = userProfile.Username,
-                Fullname = userProfile.Fullname,
-                Age = userProfile.Age,
-                Location = userProfile.Location,
-                Workplace = userProfile.Workplace,
-                Hometown = userProfile.Hometown,
-                StudiedAt = userProfile.StudiedAt
+                Username = username,
+                Password = password,
+                Fullname = fullname,
+                Age = age,
+                Location = location,
+                Workplace = workplace,
+                Hometown = hometown,
+                StudiedAt = studiedAt
             });
             return await _context.SaveChangesAsync() > 0;
         }
@@ -32,20 +42,6 @@ namespace SocialMediaWebsite.Server.Services
         {
             var userProfile = await _context.UserProfile.FindAsync(userId);
             return userProfile;
-        }
-
-        public UserProfileDto GetUserProfileDto(CreateAccountRequest request)
-        {
-            return new UserProfileDto
-            {
-                Username = request.Username,
-                Fullname = request.Fullname,
-                Age = request.Age,
-                Location = request.Location,
-                Workplace = request.Workplace,
-                Hometown = request.Hometown,
-                StudiedAt = request.StudiedAt
-            };
         }
 
         public UserProfileDto GetUserProfileDto(UserProfile userProfile)

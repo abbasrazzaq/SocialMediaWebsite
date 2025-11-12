@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SocialMediaWebsite.Server.Data;
 
@@ -11,9 +12,11 @@ using SocialMediaWebsite.Server.Data;
 namespace SocialMediaWebsite.Server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251112134736_AddingPasswordToUserProfile")]
+    partial class AddingPasswordToUserProfile
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,7 +37,7 @@ namespace SocialMediaWebsite.Server.Migrations
 
                     b.HasIndex("FriendId");
 
-                    b.ToTable("FriendsTable", (string)null);
+                    b.ToTable("FriendsTable");
                 });
 
             modelBuilder.Entity("SocialMediaWebsite.Server.Models.UserPost", b =>
@@ -103,7 +106,7 @@ namespace SocialMediaWebsite.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserProfile", (string)null);
+                    b.ToTable("UserProfile");
                 });
 
             modelBuilder.Entity("SocialMediaWebsite.Server.Models.Friend", b =>
