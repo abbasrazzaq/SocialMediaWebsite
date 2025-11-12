@@ -13,14 +13,14 @@ namespace SocialMediaWebsite.Server.Controllers
         public FriendsController(FriendsService friendsService) => _friendService = friendsService;
 
         [HttpGet("getfriends")]
-        public async Task<ActionResult> GetFriends()
+        public async Task<ActionResult> GetFriends([FromQuery] int userId)
         {
-            var friendsList = _friendService.GetFriendsList(1);
+            var friendsList = _friendService.GetFriendsList(userId);
             return Ok(friendsList);
         }
 
         [HttpPost("addfriend")]
-        public async Task<ActionResult> AddFriend([FromBody] AddFriendRequest request)
+        public async Task<ActionResult> AddFriend([FromBody] FriendChangeRequest request)
         {
             var result = await _friendService.AddFriend(request.UserId, request.FriendId);
             // TODO: Check the result (or on the UI)
@@ -28,7 +28,7 @@ namespace SocialMediaWebsite.Server.Controllers
         }
 
         [HttpPost("removefriend")]
-        public async Task<ActionResult> RemoveFriend([FromBody] RemoveFriendRequest request)
+        public async Task<ActionResult> RemoveFriend([FromBody] FriendChangeRequest request)
         {
             var result = await _friendService.RemoveFriend(request.UserId, request.FriendId);
             return Ok(result);

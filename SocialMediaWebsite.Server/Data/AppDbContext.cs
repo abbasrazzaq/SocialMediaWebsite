@@ -17,6 +17,7 @@ namespace SocialMediaWebsite.Server.Data
 
         protected override void OnModelCreating(ModelBuilder model)
         {
+            #region Friend
             model.Entity<Friend>()
                 .HasKey(f => new { f.UserId, f.FriendId });
 
@@ -31,7 +32,9 @@ namespace SocialMediaWebsite.Server.Data
                 .WithMany()
                 .HasForeignKey(f => f.FriendId)
                 .OnDelete(DeleteBehavior.Restrict);
+            #endregion
 
+            #region UserPost
             model.Entity<UserPost>()
                 .HasOne(p => p.UserProfile)
                 .WithMany(u => u.Posts)
@@ -51,6 +54,7 @@ namespace SocialMediaWebsite.Server.Data
                 .WithMany(u => u.Posts)
                 .HasForeignKey(p => p.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
+            #endregion
         }
     }
 }

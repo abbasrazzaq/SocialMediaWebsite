@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import type { CSSProperties } from 'react';
 import { apiFetch } from '../services/api';
+import { useLocation } from 'react-router-dom';
 
 interface Friend {
     id: number;
@@ -12,13 +13,17 @@ function FriendsList() {
     const [friendsList, setFriendsList] = useState<Friend[]>([]);
     const [peopleMayKnowList, setPeopleMayKnowList] = useState<Friend[]>([]);
 
-    async function addFriend(userId: number, newFriend: Friend) {
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const myUserId: number = Number(searchParams.get('userId')) || 1;
+
+    async function addFriend(newFriend: Friend) {
 
         try {
             await apiFetch('api/Friends/addfriend', {
                 method: "POST",
                 body: {
-                    userId: userId,
+                    userId: myUserId,
                     friendId: newFriend.id
                 }
             });
@@ -34,13 +39,13 @@ function FriendsList() {
         setPeopleMayKnowList(prev => prev.filter(p => p.id !== newFriend.id));
     }
 
-    async function removeFriend(userId: number, friend: Friend) {
+    async function removeFriend(friend: Friend) {
 
         try {
             await apiFetch('api/Friends/removefriend', {
                 method: "POST",
                 body: {
-                    userId: userId,
+                    userId: myUserId,
                     friendId: friend.id
                 }
             });
@@ -58,7 +63,7 @@ function FriendsList() {
     useEffect(() => {
         async function loadFriendsList() {
             try {
-                const myFriendsList = await apiFetch<Friend[]>('api/Friends/getfriends');
+                const myFriendsList = await apiFetch<Friend[]>('api/Friends/getfriends?userId=' + myUserId);
                 setFriendsList(myFriendsList);
             }
             catch (error) {
@@ -67,9 +72,9 @@ function FriendsList() {
             }
         }
 
-        async function loadPeopleMayKnowList(userId: number) {
+        async function loadPeopleMayKnowList() {
             try {
-                const myPeopleMayKnowList = await apiFetch<Friend[]>(`api/Friends/getpeoplemayknow?userId=${userId}`);
+                const myPeopleMayKnowList = await apiFetch<Friend[]>(`api/Friends/getpeoplemayknow?userId=${myUserId}`);
                 setPeopleMayKnowList(myPeopleMayKnowList);
             } catch (error) {
                 console.error("Failed to load people you may know list: " + error);
@@ -78,7 +83,7 @@ function FriendsList() {
         }
 
         loadFriendsList();
-        loadPeopleMayKnowList(1);
+        loadPeopleMayKnowList();
     }, []);
 
 
@@ -102,7 +107,7 @@ function FriendsList() {
                             <a href={`/userprofile?userId=${user.id}`}>{user.username}</a>
                         </div>
                         <span style={fullNameSpan}>{user.fullname}</span>
-                        <button onClick={() => removeFriend(1, user)}>Remove</button>
+                        <button onClick={() => removeFriend(user)}>Remove</button>
                     </li>
                 ))}
             </ul>
@@ -125,7 +130,7 @@ function FriendsList() {
                             <a href={`/userprofile?userId=${user.id}`}>{user.username}</a>
                         </div>
                         <span style={fullNameSpan}>{user.fullname}</span>
-                        <button onClick={() => addFriend(1, user)}>Add</button>
+                        <button onClick={() => addFriend(user)}>Add</button>
                     </li>
                 )) }
             </ul>
